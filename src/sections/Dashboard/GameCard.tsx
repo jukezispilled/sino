@@ -98,10 +98,6 @@ const StyledGameCard = styled(NavLink)<{$small: boolean, $background: string}>`
   &:hover .play {
     opacity: 1;
   }
-  &:hover {
-    outline: #9564ff33 solid 5px;
-    outline-offset: 0px;
-  }
 `
 
 export function GameCard({ game }: {game: GameBundle}) {

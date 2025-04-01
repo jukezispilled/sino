@@ -53,20 +53,6 @@ export default function App() {
 
   return (
     <>
-      {newcomer && (
-        <Modal>
-          <h1>Welcome</h1>
-          <TosWrapper>
-            <TosInner dangerouslySetInnerHTML={{ __html: TOS_HTML }} />
-          </TosWrapper>
-          <p>
-            By playing on our platform, you confirm your compliance.
-          </p>
-          <GambaUi.Button main onClick={() => set({ newcomer: false })}>
-            Acknowledge
-          </GambaUi.Button>
-        </Modal>
-      )}
       <ScrollToTop />
       <ErrorHandler />
       <Header />
@@ -76,8 +62,6 @@ export default function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/:gameId" element={<Game />} />
         </Routes>
-        <h2 style={{ textAlign: 'center' }}>Recent Plays</h2>
-        <RecentPlays />
       </MainWrapper>
     </>
   )

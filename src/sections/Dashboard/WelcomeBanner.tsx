@@ -1,136 +1,95 @@
-import { useWallet } from '@solana/wallet-adapter-react'
-import { useWalletModal } from '@solana/wallet-adapter-react-ui'
-import React from 'react'
-import styled from 'styled-components'
-import { useUserStore } from '../../hooks/useUserStore'
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { Copy } from 'lucide-react';
 
-const Buttons = styled.div`
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-
-  @media (min-width: 800px) {
-    height: 100%;
-  }
-
-  @media (max-width: 800px) {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
-    padding-top: 0!important;
-  }
-
-  & > button {
-    border: none;
-    width: 100%;
-    border-radius: 10px;
-    padding: 10px;
-    background: #ffffffdf;
-    transition: background-color .2s ease;
-    color: black;
-    cursor: pointer;
-    &:hover {
-      background: white;
-    }
-  }
-`
-
-const Welcome = styled.div`
-  @keyframes welcome-fade-in {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  @keyframes backgroundGradient {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
-
-  background: linear-gradient(-45deg, #ffb07c, #ff3e88, #2969ff, #ef3cff, #ff3c87);
-  background-size: 300% 300%;
-  animation: welcome-fade-in .5s ease, backgroundGradient 30s ease infinite;
-  border-radius: 10px;
-  position: relative;
-  overflow: hidden;
+const Hero = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding: 20px;
-  filter: drop-shadow(0 4px 3px rgba(0,0,0,.07)) drop-shadow(0 2px 2px rgba(0,0,0,.06));
+  padding: 40px 20px;
+  text-align: center;
 
-  & img {
-    animation-duration: 5s;
-    animation-iteration-count: infinite;
-    animation-timing-function: ease-in-out;
-    width: 100px;
-    height: 100px;
-    top: 0;
-    right: 0;
-    &:nth-child(1) {animation-delay: 0s;}
-    &:nth-child(2) {animation-delay: 1s;}
+  h1 {
+    font-size: 3.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    font-size: 1rem;
+    margin-top: 1rem;
   }
 
   & > div {
     padding: 0px;
-    filter: drop-shadow(0 4px 3px rgba(0,0,0,.07)) drop-shadow(0 2px 2px rgba(0,0,0,.06));
   }
 
   @media (min-width: 800px) {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    padding: 0;
-    & > div {
-      padding: 40px;
+    padding: 60px 20px;
+    
+    h1 {
+      font-size: 7rem;
+      margin-bottom: 0rem;
+      margin-top: 0rem;
+    }
+    
+    p {
+      font-size: 1rem;
+      margin-top: 0;
     }
   }
-`
+`;
+
+const Badge = styled.div`
+  background: #8156F6;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 10px 18px; /* More padding inside */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  white-space: nowrap;
+  gap: 8px; /* Space between icon and text */
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+
+  &:hover {
+    transform: scale(1.05); /* Slight scale effect on hover */
+    background: #6A3BEA;
+  }
+
+  span {
+    padding: 0 10px; /* Adds space inside around text */
+    display: inline-block;
+  }
+`;
 
 export function WelcomeBanner() {
-  const wallet = useWallet()
-  const walletModal = useWalletModal()
-  const store = useUserStore()
-  const copyInvite = () => {
-    store.set({ userModal: true })
-    if (!wallet.connected) {
-      walletModal.setVisible(true)
-    }
-  }
+  const [address] = useState("XXXXXXXXXXXXXXXXXX"); // Replace with real value
+
+  const getAbbreviatedAddress = (address: string | any[]) => {
+    return `${address.slice(0, 3)}...${address.slice(-3)}`;
+  };
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(address);
+  };
 
   return (
-    <Welcome>
+    <Hero>
+      <Badge onClick={copyToClipboard}>
+        <span>
+          <Copy size={12} />
+          <span>{getAbbreviatedAddress(address)}</span>
+        </span>
+      </Badge>
       <div>
-        <h1>Welcome to Gamba v2 👋</h1>
-        <p>
-          A fair, simple and decentralized casino on Solana.
-        </p>
+        <h1>Trenchsino</h1>
+        <p>Instant on-chain gambling. Best odds right from your wallet</p>
       </div>
-      <Buttons>
-        <button onClick={copyInvite}>
-          💸 Copy Invite
-        </button>
-        <button onClick={() => window.open('https://v2.gamba.so/', '_blank')}>
-          🚀 Add Liquidity
-        </button>
-        <button onClick={() => window.open('https://discord.gg/HSTtFFwR', '_blank')}>
-          💬 Discord
-        </button>
-      </Buttons>
-    </Welcome>
-  )
+    </Hero>
+  );
 }
