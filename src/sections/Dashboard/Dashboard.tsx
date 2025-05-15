@@ -112,7 +112,7 @@ export default function Dashboard() {
       <GameGrid />
       {!loading && solanaPrice !== null && (
         <SolanaPrice>
-          <img src="https://cryptologos.cc/logos/solana-sol-logo.png?v=025" alt="SOL" />
+          <img src="https://assets.coingecko.com/coins/images/4128/small/solana.png" alt="SOL" />
           ${solanaPrice.toFixed(2)}
           {priceChange !== 0 && (
             <span className={priceChange >= 0 ? 'price-up' : 'price-down'}>
